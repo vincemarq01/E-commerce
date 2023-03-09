@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import image1 from '../assets/image-product-1.jpg';
-import image2 from '../assets/image-product-1-thumbnail.jpg';
+import Appdata from '../Views/Appdata';
+
 import nextIcon from '../assets/icon-next.svg';
 import prevIcon from '../assets/icon-previous.svg';
-import minusIcon from '../assets/icon-minus.svg';
+
 import plusIcon from '../assets/icon-plus.svg';
 
 import { ReactComponent as MinusIcon } from '../assets/icon-minus.svg';
 import { ReactComponent as CartIcon } from '../assets/icon-cart.svg';
-const Cart = () => {
+const Cart: React.FC = () => {
+  const [photo, setPhoto] = useState(true);
+  const [thumbnail, setThumbnail] = useState('');
+  const CartBehavior = (image: any, index: number) => {
+    setThumbnail(image);
+    console.log(index);
+    setPhoto(false);
+  };
+
   return (
     <div className="lg:grid grid-cols-2 max-w-[1240px] mx-auto lg:mt-[96px]">
       <div className="hidden lg:flex flex-col">
@@ -17,10 +26,70 @@ const Cart = () => {
         </div>
         <div>
           <div className="flex flex-row gap-8 flex-wrap  px-[120px] w-full">
-            <img className="w-[70px] h-[70px] rounded-xl" src={image2}></img>
-            <img className="w-[70px] h-[70px] rounded-xl" src={image2}></img>
-            <img className="w-[70px] h-[70px] rounded-xl" src={image2}></img>
-            <img className="w-[70px] h-[70px] rounded-xl" src={image2}></img>
+            {Appdata.map((image, index) => (
+              <div key={index} onClick={() => CartBehavior(image, index)}>
+                {photo && index ? (
+                  <img
+                    src={image}
+                    className="w-[70px] h-[70px] rounded-xl cursor-pointer"
+                  ></img>
+                ) : (
+                  <img
+                    src={image}
+                    className="w-[70px] h-[70px] rounded-xl cursor-pointer outline outline-pink-500"
+                  ></img>
+                )}
+              </div>
+            ))}
+            {/* <div onClick={CartBehavior}>
+              {thumbnail ? (
+                <img
+                  className="w-[70px] h-[70px] rounded-xl cursor-pointer"
+                  src={ImageThumbnails}
+                ></img>
+              ) : (
+                <img
+                  className="w-[70px] h-[70px] rounded-xl cursor-pointer outline outline-pink-500"
+                  src={ImageThumbnails}
+                ></img>
+              )}
+            </div> */}
+
+            {/* <div onClick={CartBehavior}>
+              {thumbnail ? (
+                <img
+                  className="w-[70px] h-[70px] rounded-xl cursor-pointer"
+                  src={ImageThumbnail2}
+                ></img>
+              ) : (
+                <img
+                  className="w-[70px] h-[70px] rounded-xl cursor-pointer outline outline-pink-500"
+                  src={ImageThumbnail2}
+                ></img>
+              )}
+            </div>
+            {thumbnail ? (
+              <img
+                className="w-[70px] h-[70px] rounded-xl cursor-pointer"
+                src={ImageThumbnail3}
+              ></img>
+            ) : (
+              <img
+                className="w-[70px] h-[70px] rounded-xl cursor-pointer outline outline-pink-500"
+                src={ImageThumbnail3}
+              ></img>
+            )}
+            {thumbnail ? (
+              <img
+                className="w-[70px] h-[70px] rounded-xl cursor-pointer"
+                src={ImageThumbnail4}
+              ></img>
+            ) : (
+              <img
+                className="w-[70px] h-[70px] rounded-xl cursor-pointer outline outline-pink-500"
+                src={ImageThumbnail4}
+              ></img>
+            )} */}
           </div>
         </div>
       </div>
@@ -46,39 +115,38 @@ const Cart = () => {
             the weather can offer.
           </p>
 
-          <div className="py-[30px] grid grid-cols-3 ">
+          <div className="grid grid-cols-3  pt-[30px] lg:grid-cols-4 grid-rows-2">
             <div>
               <h1 className="font-bold text-3xl">$125.00</h1>
             </div>
-            <div className="pt-1">
+            <div className="pt-1 lg:pt-2">
               <span className="font-bold text-orange-text rounded-md bg-orange-400/20 p-[4px]">
                 50%
               </span>
             </div>
-            <div>
-              <p className="font-bold text-gray-400 line-through text-right">
-                $250.00
-              </p>
+            <div className="lg:col-start-1">
+              <p className="font-bold text-gray-400 line-through">$250.00</p>
             </div>
           </div>
+          <div className="lg:grid grid-cols-3 gap-x-4">
+            <div className="lg:col-start-1 p-5 my-5 bg-gray-100 rounded-md flex justify-between ">
+              <div className="my-auto">
+                <MinusIcon fill="black" />
+              </div>
+              <div>
+                <p className="text-center">0</p>
+              </div>
+              <div className="my-auto">
+                <img className="" src={plusIcon}></img>
+              </div>
+            </div>
 
-          <div className="p-5 my-5 bg-gray-100 rounded-md flex justify-between ">
-            <div className="my-auto">
-              <MinusIcon fill="black" />
+            <div className="lg:col-start-2 col-span-3 p-5 my-5 bg-orange-text rounded-md flex justify-center ">
+              <div className="mr-5 fill-slate-100">
+                <CartIcon stroke="white" fill="red" />
+              </div>
+              <p className="text-xl text-white">Add to cart</p>
             </div>
-            <div>
-              <p className="text-center">0</p>
-            </div>
-            <div className="my-auto">
-              <img className="" src={plusIcon}></img>
-            </div>
-          </div>
-
-          <div className="p-5 bg-red-400 rounded-md flex justify-center ">
-            <div className="mr-5 fill-slate-100">
-              <CartIcon stroke="white" fill="red" />
-            </div>
-            <p className="text-xl text-white">Add to cart</p>
           </div>
         </div>
       </div>
