@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import image1 from '../assets/image-product-1.jpg';
-import Appdata from '../Views/Appdata';
+import Appdata, { BigImage } from '../Views/Appdata';
 
 import nextIcon from '../assets/icon-next.svg';
 import prevIcon from '../assets/icon-previous.svg';
@@ -9,38 +9,51 @@ import plusIcon from '../assets/icon-plus.svg';
 
 import { ReactComponent as MinusIcon } from '../assets/icon-minus.svg';
 import { ReactComponent as CartIcon } from '../assets/icon-cart.svg';
+
 const Cart: React.FC = () => {
+  console.log(BigImage);
   const [photo, setPhoto] = useState(true);
   const [thumbnail, setThumbnail] = useState('');
+  const [mainImage, setmainImage] = useState(0);
+
   const CartBehavior = (image: any, index: number) => {
     setThumbnail(image);
-    console.log(index);
-    setPhoto(false);
+    setmainImage(index);
+    // console.log(index);
+    setPhoto(!photo);
   };
 
   return (
     <div className="lg:grid grid-cols-2 max-w-[1240px] mx-auto lg:mt-[96px]">
       <div className="hidden lg:flex flex-col">
         <div className="2xl:flex mx-[120px] my-5">
-          <img className="w-full h-[400px] rounded-2xl" src={image1}></img>
+          <img
+            className="w-full h-[400px] rounded-2xl"
+            src={BigImage[mainImage]}
+          ></img>
         </div>
         <div>
           <div className="flex flex-row gap-8 flex-wrap  px-[120px] w-full">
             {Appdata.map((image, index) => (
-              <div key={index} onClick={() => CartBehavior(image, index)}>
-                {photo && index ? (
-                  <img
-                    src={image}
-                    className="w-[70px] h-[70px] rounded-xl cursor-pointer"
-                  ></img>
-                ) : (
-                  <img
-                    src={image}
-                    className="w-[70px] h-[70px] rounded-xl cursor-pointer outline outline-pink-500"
-                  ></img>
-                )}
+              <div key={index}>
+                <img
+                  onClick={() => {
+                    CartBehavior(image, index);
+                  }}
+                  src={image}
+                  className={
+                    thumbnail === image && photo
+                      ? 'w-[70px] h-[70px] rounded-xl cursor-pointer  outline outline-pink-500'
+                      : 'w-[70px] h-[70px] rounded-xl cursor-pointer'
+                  }
+                ></img>
+                {/* <img
+                  className="w-full h-[400px] rounded-2xl"
+                  src={image[0]}
+                ></img> */}
               </div>
             ))}
+
             {/* <div onClick={CartBehavior}>
               {thumbnail ? (
                 <img
